@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DMMortgageCalculator</string>
+    <string name="PurchasePrice">Purchase Price</string>
+    <string name="DownPayment">Down Payment</string>
+    <string name="InterestRate">Yearly Fixed Interest Rate</string>
+    <string name="LoanAmount">Loan Amount</string>
+    <string name="tenYearMonthlyPayment">10yr Monthly Payment</string>
+    <string name="twentyYearMonthlyPayment">20yr Monthly Payment</string>
+    <string name="thirtyYearMonthlyPayment">30yr Monthly Payment</string>
+    <string name="customMonthlyPayment">Custom Monthly Payment</string>
+    <string name="customYears">Custom Years</string>
+    <string name="years">Years</string>
+    <string name="Months">Months</string>
+    <string name="Monthly">Monthly</string>
+    <string name="MonthlyPayment">Monthly Payment</string>
+    <string name="total">Total</string>
+    <string name="custom">Custom</string>
+    <string name="zero">0.00</string>
+    <string name="TaxString">Tax</string>
+    <string name="InitialNumberString">0.0</string>
+    <string name="HeadsString">Heads</string>
+    <string name="SplitString">Even Split</string>
+</resources>
