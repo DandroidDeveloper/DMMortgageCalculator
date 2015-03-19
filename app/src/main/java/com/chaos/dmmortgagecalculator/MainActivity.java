@@ -17,23 +17,17 @@ public class MainActivity extends Activity
     private static final String DOWN_PAYMENT="DOWN_PAYMENT";
     private static final String INTEREST_RATE="INTEREST_RATE";
     private static final String CUSTOM_YEARS="CUSTOM_YEARS";
-
     private double currentPurchasePrice;
     private double currentDownPayment;
-
     private int currentInterestRate;
     private int currentCustomYears;
-
-
     private EditText PurchasePriceEditText;
     private EditText DownPaymentEditText;
     private EditText tenYearMonthlyPaymentEditText;
     private EditText twentyYearMonthlyPaymentEditText;
     private EditText thirtyYearMonthlyPaymentEditText;
-
     private TextView InterestRateTextView;
     private TextView YearsTextView;
-
     private EditText LoanAmountEditText;
     private EditText CustomMonthlyPaymentEditText;
 
@@ -47,49 +41,49 @@ public class MainActivity extends Activity
         // check if app just started or is being restored from memory
         if ( savedInstanceState == null ) // the app just started running
         {
-            currentPurchasePrice=0.0;
-            currentDownPayment=0.0;
+            currentPurchasePrice=0.0;//initialize the purchase price
+            currentDownPayment=0.0;//initialize the down payment
         } // end if
         else // app is being restored from memory, not executed from scratch
         {
-            // initialize the bill amount to saved amount
+            // initialize the purchase price and down payment amounts to saved amount
             currentPurchasePrice=savedInstanceState.getDouble(PURCHASE_PRICE);
             currentDownPayment=savedInstanceState.getDouble(DOWN_PAYMENT);
-            // initialize the custom tip to saved tip percent
+            // initialize the custom Interest Rate and Years to saved amounts
             currentInterestRate =
                     savedInstanceState.getInt(INTEREST_RATE);
             currentCustomYears =
                     savedInstanceState.getInt(CUSTOM_YEARS);
         } // end else
 
-        // get references to the 10%, 15% and 20% tip and total EditTexts
+        // get references to the ten, twenty, and thirty year monthly payment EditTexts
 
         tenYearMonthlyPaymentEditText=(EditText) findViewById(R.id.tenYearMonthlyPaymentEditText);
         twentyYearMonthlyPaymentEditText=(EditText) findViewById(R.id.twentyYearMonthlyPaymentEditText);
         thirtyYearMonthlyPaymentEditText=(EditText) findViewById(R.id.thirtyYearMonthlyPaymentEditText);
-        // get the TextView displaying the custom tip percentage
+        // get the TextView displaying the custom Interest Rates and years
 
         InterestRateTextView=(TextView) findViewById(R.id.InterestRateTextView);
         YearsTextView=(TextView) findViewById(R.id.YearsTextView);
-        // get the custom tip and total EditTexts
+        // get the custom monthly payment and loan amount edit texts
 
         CustomMonthlyPaymentEditText=(EditText) findViewById(R.id.CustomMonthlyPaymentEditText);
         LoanAmountEditText=(EditText) findViewById(R.id.LoanAmountEditText);
-        // get the billEditText
+        // get the purchase price and down payment edit texts
 
         PurchasePriceEditText=(EditText) findViewById(R.id.PurchasePriceEditText);
         DownPaymentEditText=(EditText) findViewById(R.id.DownPaymentEditText);
-        // billEditTextWatcher handles billEditText's onTextChanged event
+        // purchase price and down paymentEditTextWatcher handles purchase price and down paymentEditText's onTextChanged event
         PurchasePriceEditText.addTextChangedListener(PurchasePriceEditTextTextWatcher);
         DownPaymentEditText.addTextChangedListener(DownPaymentEditTextTextWatcher);
-        // get the SeekBar used to set the custom tip amount
+        // get the SeekBar used to set the interest rate and custom years
         SeekBar customInterestRateSeekBar = (SeekBar) findViewById(R.id.customInterestRateSeekBar);
         customInterestRateSeekBar.setOnSeekBarChangeListener(customInterestRateSeekBarListener);
         SeekBar customYearsSeekBar = (SeekBar) findViewById(R.id.customYearsSeekBar);
         customYearsSeekBar.setOnSeekBarChangeListener(customYearsSeekBarListener);
     } // end method onCreate
 
-    // updates 10, 15 and 20 percent tip EditTexts
+    // updates 10, 20, and 30 year amounts
     private void updateStandard()
     {
         double currentLoanAmount=(currentPurchasePrice-currentDownPayment);
@@ -122,24 +116,24 @@ public class MainActivity extends Activity
         LoanAmountEditText.setText(String.format("%.02f", currentLoanAmount));
     } // end method updateStandard
 
-    // updates the custom tip and total EditTexts
+    // updates the custom interest rates, loan amount, and monthly payment
     private void updateCustom()
     {
         double currentLoanAmount=(currentPurchasePrice-currentDownPayment);
-        // set customTipTextView's text to match the position of the SeekBar
+        // set Interest Rate and years TextView's text to match the position of the SeekBar
 
         InterestRateTextView.setText(currentInterestRate+"%");
         YearsTextView.setText(currentCustomYears+"%");
         // calculate the custom tip amount
 
-        // calculate the total bill, including the custom tip
+        // calculate the customMonthlyPayment amount
 
         double CustomMonthlyPaymentAmount=((currentLoanAmount*(currentInterestRate*.01)*currentCustomYears)+currentLoanAmount)/(currentCustomYears*12);
-        // display the tip and total bill amounts
+        // display the custom monthly payment
         CustomMonthlyPaymentEditText.setText(String.format("%.02f", CustomMonthlyPaymentAmount));
     } // end method updateCustom
 
-    // save values of billEditText and customSeekBar
+    // save values of purchase price, down payment, interest rate, and customYearsSeekBar
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
@@ -158,12 +152,12 @@ public class MainActivity extends Activity
     private OnSeekBarChangeListener customInterestRateSeekBarListener =
             new OnSeekBarChangeListener()
             {
-                // update currentCustomPercent, then call updateCustom
+                // update currentInterestRate, then call updateCustom
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress,
                                               boolean fromUser)
                 {
-                    // sets currentCustomPercent to position of the SeekBar's thumb
+                    // sets currentCustomInterestRate to position of the SeekBar's thumb
                     currentInterestRate = seekBar.getProgress();
                     updateCustom(); // update EditTexts for custom tip and total
                     updateStandard();
@@ -183,12 +177,12 @@ public class MainActivity extends Activity
     private OnSeekBarChangeListener customYearsSeekBarListener =
             new OnSeekBarChangeListener()
             {
-                // update currentCustomPercent, then call updateCustom
+                // update currentYears, then call updateCustom
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress,
                                               boolean fromUser)
                 {
-                    // sets currentCustomPercent to position of the SeekBar's thumb
+                    // sets currentCustomYears to position of the SeekBar's thumb
                     currentCustomYears = seekBar.getProgress();
                     updateCustom(); // update EditTexts for custom tip and total
                 } // end method onProgressChanged
@@ -203,7 +197,7 @@ public class MainActivity extends Activity
                 {
                 } // end method onStopTrackingTouch
             }; // end OnSeekBarChangeListener
-    // event-handling object that responds to billEditText's events
+    // event-handling object that responds to purchasepriceeditText's events
     private TextWatcher PurchasePriceEditTextTextWatcher = new TextWatcher()
     {
         // called when the user enters a number
@@ -211,7 +205,7 @@ public class MainActivity extends Activity
         public void onTextChanged(CharSequence s, int start,
                                   int before, int count)
         {
-            // convert billEditText's text to a double
+            // convert purchasePriceEditText's text to a double
             try
             {
                 currentPurchasePrice = Double.parseDouble(s.toString());
@@ -221,9 +215,9 @@ public class MainActivity extends Activity
                 currentPurchasePrice = 0.0; // default if an exception occurs
             } // end catch
 
-            // update the standard and custom tip EditTexts
-            updateStandard(); // update the 10, 15 and 20% EditTexts
-            updateCustom(); // update the custom tip EditTexts
+            // update the standard and custom monthlypayment EditTexts
+            updateStandard(); // update the 10, 20 and 30 yr amounts
+            updateCustom(); // update the custom amounts
         } // end method onTextChanged
 
         @Override
@@ -236,7 +230,7 @@ public class MainActivity extends Activity
                                       int after)
         {
         } // end method beforeTextChanged
-    }; // end billEditTextWatcher
+    }; // end EditTextWatcher
     private TextWatcher DownPaymentEditTextTextWatcher = new TextWatcher()
     {
         // called when the user enters a number
@@ -244,7 +238,7 @@ public class MainActivity extends Activity
         public void onTextChanged(CharSequence s, int start,
                                   int before, int count)
         {
-            // convert billEditText's text to a double
+            // convert downpaymentEditText's text to a double
             try
             {
                 currentDownPayment = Double.parseDouble(s.toString());
@@ -254,9 +248,9 @@ public class MainActivity extends Activity
                 currentDownPayment = 0.0; // default if an exception occurs
             } // end catch
 
-            // update the standard and custom tip EditTexts
-            updateStandard(); // update the 10, 15 and 20% EditTexts
-            updateCustom(); // update the custom tip EditTexts
+            // update the standard and custom downpayment EditTexts
+            updateStandard(); // update the 10, 20, 30 yr edittexts
+            updateCustom(); // update the custom  EditTexts
         } // end method onTextChanged
 
         @Override
@@ -269,5 +263,5 @@ public class MainActivity extends Activity
                                       int after)
         {
         } // end method beforeTextChanged
-    }; // end billEditTextWatcher
-} // end class TipCalculator
+    }; // end downpaymentEditTextWatcher
+} // end class DMMortgageCalculator
